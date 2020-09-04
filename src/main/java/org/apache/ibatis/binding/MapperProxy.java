@@ -149,6 +149,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args, SqlSession sqlSession) throws Throwable {
+      // TODO MapperMethod.execute根据SELECT、INSERT等执行SQL
       return mapperMethod.execute(sqlSession, args);
     }
   }

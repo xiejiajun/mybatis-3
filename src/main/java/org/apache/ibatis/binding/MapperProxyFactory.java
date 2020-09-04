@@ -45,10 +45,13 @@ public class MapperProxyFactory<T> {
 
   @SuppressWarnings("unchecked")
   protected T newInstance(MapperProxy<T> mapperProxy) {
+    // TODO 创建MapperProxy的动态代理
     return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[] { mapperInterface }, mapperProxy);
   }
 
   public T newInstance(SqlSession sqlSession) {
+    // TODO 构建Mapper接口代理MapperProxy -> InvocationHandler
+    //  methodCache用于保存method和MapperMethodInvoker的映射关系
     final MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession, mapperInterface, methodCache);
     return newInstance(mapperProxy);
   }

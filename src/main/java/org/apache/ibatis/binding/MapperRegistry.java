@@ -42,6 +42,7 @@ public class MapperRegistry {
 
   @SuppressWarnings("unchecked")
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
+    // TODO 获取Mapper接口对应的MapperProxyFactory
     final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);
     if (mapperProxyFactory == null) {
       throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
@@ -64,6 +65,7 @@ public class MapperRegistry {
       }
       boolean loadCompleted = false;
       try {
+        // TODO 将Mapper类型包装成MapperProxyFactory
         knownMappers.put(type, new MapperProxyFactory<>(type));
         // It's important that the type is added before the parser is run
         // otherwise the binding may automatically be attempted by the

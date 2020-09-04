@@ -47,6 +47,7 @@ public class SqlSessionFactoryBuilder {
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);
+      // TODO parser.parse解析mybatis-config.xml 用于初始化SqlSessionFactor
       return build(parser.parse());
     } catch (Exception e) {
       throw ExceptionFactory.wrapException("Error building SqlSession.", e);
@@ -89,6 +90,7 @@ public class SqlSessionFactoryBuilder {
   }
 
   public SqlSessionFactory build(Configuration config) {
+    // TODO config里面的MapperRegistry保存了Mapper接口类型
     return new DefaultSqlSessionFactory(config);
   }
 

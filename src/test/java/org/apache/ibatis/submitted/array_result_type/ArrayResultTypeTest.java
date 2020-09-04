@@ -35,6 +35,7 @@ class ArrayResultTypeTest {
   static void setUp() throws Exception {
     // create an SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/array_result_type/mybatis-config.xml")) {
+      // TODO DefaultSqlSessionFactory
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
@@ -45,6 +46,7 @@ class ArrayResultTypeTest {
 
   @Test
   void shouldGetUserArray() {
+    // TODO DefaultSqlSession
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Mapper mapper = sqlSession.getMapper(Mapper.class);
       User[] users = mapper.getUsers();

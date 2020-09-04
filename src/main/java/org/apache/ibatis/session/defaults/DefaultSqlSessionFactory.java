@@ -44,6 +44,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
   @Override
   public SqlSession openSession() {
+    // TODO 创建SqlSession
     return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
   }
 
@@ -89,10 +90,14 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
   private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level, boolean autoCommit) {
     Transaction tx = null;
+    // TODO execType为ExecutorType.SIMPLE
     try {
       final Environment environment = configuration.getEnvironment();
+      // TODO 获取事务管理器
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+      // TODO 开启事务
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
+      // TODO 构建Executor： 比如SimpleExecutor
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {

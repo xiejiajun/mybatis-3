@@ -96,6 +96,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
     parsed = true;
+    // TODO 解析mybatis-config.xml 用于初始化SqlSessionFactory
     parseConfiguration(parser.evalNode("/configuration"));
     return configuration;
   }
@@ -117,6 +118,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       environmentsElement(root.evalNode("environments"));
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
       typeHandlerElement(root.evalNode("typeHandlers"));
+      // TODO 处理mybatis-config.xml中mappers标签指定的用户Mapper接口
       mapperElement(root.evalNode("mappers"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
@@ -364,23 +366,28 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (parent != null) {
       for (XNode child : parent.getChildren()) {
         if ("package".equals(child.getName())) {
+          // TODO 获取package标签方式批量配置的Mapper
           String mapperPackage = child.getStringAttribute("name");
           configuration.addMappers(mapperPackage);
         } else {
+          // TODO 获取mapper标签方式配置的单个Mapper
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
           if (resource != null && url == null && mapperClass == null) {
+            // TODO 使用相对于类路径的资源引用
             ErrorContext.instance().resource(resource);
             InputStream inputStream = Resources.getResourceAsStream(resource);
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
             mapperParser.parse();
           } else if (resource == null && url != null && mapperClass == null) {
+            // TODO 使用完全限定资源定位符（绝对路径URL）
             ErrorContext.instance().resource(url);
             InputStream inputStream = Resources.getUrlAsStream(url);
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
             mapperParser.parse();
           } else if (resource == null && url == null && mapperClass != null) {
+            // TODO 使用映射器接口实现类的完全限定类名
             Class<?> mapperInterface = Resources.classForName(mapperClass);
             configuration.addMapper(mapperInterface);
           } else {

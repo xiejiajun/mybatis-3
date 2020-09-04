@@ -51,6 +51,7 @@ public class MapperMethod {
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
     this.command = new SqlCommand(config, mapperInterface, method);
+    // TODO 根据XML配置构建方法签名
     this.method = new MethodSignature(config, mapperInterface, method);
   }
 
